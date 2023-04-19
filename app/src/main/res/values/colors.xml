@@ -12,4 +12,5 @@
     <color name="indigo_700">#303F9F</color>
     <color name="lime_200">#E6EE9C</color>
     <color name="lime_500">#CDDC39</color>
+    <color name="red">#F44336</color>
 </resources>

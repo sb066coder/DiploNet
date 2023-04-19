@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.LifecycleOwner
 import ru.sb066coder.diplonet.databinding.FragmentWallBinding
+import ru.sb066coder.diplonet.presentation.PostInteractionListener
 import ru.sb066coder.diplonet.presentation.adapter.PostAdapter
 import ru.sb066coder.diplonet.presentation.viewmodel.PostViewModel
 
@@ -36,7 +37,16 @@ class WallFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.getData()
-        val adapter = PostAdapter()
+        val adapter = PostAdapter(object : PostInteractionListener {
+            override fun onLikeClick(id: Int) {
+                Log.d("PostAdapter", "onLikeClicked $id")
+            }
+
+            override fun onItemClick(id: Int) {
+                Log.i("PostAdapter", "onItemClicked id $id")
+            }
+
+        })
         binding.rvPosts.adapter = adapter
         viewModel.data.observe(viewLifecycleOwner) {
             adapter.submitList(it)

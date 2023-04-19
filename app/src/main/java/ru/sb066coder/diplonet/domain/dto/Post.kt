@@ -11,6 +11,8 @@ data class Post(
     val link: String? = null,
     val likeOwnerIds: List<Int> = listOf(),
     val mentionIds: List<Int> = listOf(),
+    val mentionedMe: Boolean,
+    val likedByMe: Boolean,
     val attachment: Attachment? = null,
     val ownedByMe: Boolean,
     var id: Int = UNDEFINED_ID
