@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">DiploNet</string>
+    <string name="author_avatar">Author avatar</string>
 </resources>

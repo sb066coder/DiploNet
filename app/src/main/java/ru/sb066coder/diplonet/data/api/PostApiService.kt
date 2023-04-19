@@ -8,12 +8,14 @@ import retrofit2.http.*
 import ru.sb066coder.diplonet.domain.dto.Post
 import java.util.concurrent.TimeUnit
 
-private const val AUTH_TOKEN = "03e28a93-9227-4212-8845-560c14e546a5" //TODO replace with legal authorization
+// TODO("replace with legal authorization")
+private const val AUTH_TOKEN = "03e28a93-9227-4212-8845-560c14e546a5"
 private const val BASE_URL = "https://netomedia.ru/api/"
 
 private val client = OkHttpClient.Builder()
-    .connectTimeout(39, TimeUnit.SECONDS)
+    .connectTimeout(30, TimeUnit.SECONDS)
     .build()
+
 private val retrofit = Retrofit.Builder()
     .baseUrl(BASE_URL)
     .client(client)

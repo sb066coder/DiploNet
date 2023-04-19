@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.LifecycleOwner
 import ru.sb066coder.diplonet.databinding.FragmentWallBinding
+import ru.sb066coder.diplonet.presentation.adapter.PostAdapter
 import ru.sb066coder.diplonet.presentation.viewmodel.PostViewModel
 
 /**
@@ -17,13 +18,14 @@ import ru.sb066coder.diplonet.presentation.viewmodel.PostViewModel
 class WallFragment : Fragment() {
 
     val viewModel = PostViewModel()
+    private lateinit var binding: FragmentWallBinding
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val binding = FragmentWallBinding.inflate(
+        binding = FragmentWallBinding.inflate(
             inflater,
             container,
             false
@@ -34,7 +36,10 @@ class WallFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.getData()
+        val adapter = PostAdapter()
+        binding.rvPosts.adapter = adapter
         viewModel.data.observe(viewLifecycleOwner) {
+            adapter.submitList(it)
             Log.d("WallFragment", it.toString())
         }
     }
