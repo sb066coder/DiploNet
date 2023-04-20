@@ -6,8 +6,7 @@ import ru.sb066coder.diplonet.domain.dto.Post
 class GetPostListUseCase(
     private val postRepository: PostRepository
 ) {
-
-    suspend operator fun invoke(): List<Post> {
-        return postRepository.getPostList()
+    suspend operator fun invoke() {
+        postRepository.getPostList()
     }
 }

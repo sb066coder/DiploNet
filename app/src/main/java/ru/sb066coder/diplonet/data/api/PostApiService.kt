@@ -1,6 +1,7 @@
 package ru.sb066coder.diplonet.data.api
 
 import okhttp3.OkHttpClient
+import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.create
@@ -32,7 +33,14 @@ interface PostApiService {
 
     @Headers("Authorization: $AUTH_TOKEN")
     @GET("posts")
-    suspend fun getPosts(): List<Post>
+    suspend fun getPosts(): Response<List<Post>>
 
+    @Headers("Authorization: $AUTH_TOKEN")
+    @POST("posts/{id}/likes")
+    suspend fun likePostById(@Path("id") id: Int): Response<Post>
+
+    @Headers("Authorization: $AUTH_TOKEN")
+    @DELETE("posts/{id}/likes")
+    suspend fun unlikePostById(@Path("id") id: Int): Response<Post>
 
 }

@@ -18,7 +18,7 @@ import ru.sb066coder.diplonet.presentation.viewmodel.PostViewModel
  * */
 class WallFragment : Fragment() {
 
-    val viewModel = PostViewModel()
+    private val viewModel = PostViewModel()
     private lateinit var binding: FragmentWallBinding
 
     override fun onCreateView(
@@ -39,7 +39,8 @@ class WallFragment : Fragment() {
         viewModel.getData()
         val adapter = PostAdapter(object : PostInteractionListener {
             override fun onLikeClick(id: Int) {
-                Log.d("PostAdapter", "onLikeClicked $id")
+                Log.i("PostAdapter", "onLikeClicked id $id")
+                viewModel.likePostById(id)
             }
 
             override fun onItemClick(id: Int) {
