@@ -2,9 +2,7 @@ package ru.sb066coder.diplonet.presentation.adapter
 
 import android.view.LayoutInflater
 import android.view.View
-import android.view.View.OnClickListener
 import android.view.ViewGroup
-import androidx.core.widget.ImageViewCompat
 import androidx.recyclerview.widget.DiffUtil.ItemCallback
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
@@ -14,6 +12,7 @@ import ru.sb066coder.diplonet.databinding.CardPostBinding
 import ru.sb066coder.diplonet.domain.dto.Attachment
 import ru.sb066coder.diplonet.domain.dto.Post
 import ru.sb066coder.diplonet.presentation.PostInteractionListener
+import ru.sb066coder.diplonet.presentation.ViewUtil
 
 class PostAdapter(
     private val postInteractionListener: PostInteractionListener
@@ -38,7 +37,7 @@ class PostAdapter(
         with(holder.binding) {
             tvContent.text = post.content
             tvAuthorName.text = post.author
-            tvPublished.text = post.published
+            tvPublished.text = ViewUtil.formatDate(post.published)
             // Show attachment symbol
             if (post.attachment != null) {
                 grAttachment.visibility = View.VISIBLE
