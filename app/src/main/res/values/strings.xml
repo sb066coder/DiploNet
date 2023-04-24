@@ -4,4 +4,12 @@
     <string name="attached">Attachment:</string>
     <string name="button_like">Button like</string>
     <string name="button_attachment">Button attachment</string>
+    <string name="welcome">Welcome DiploNet!</string>
+    <string name="sign_in">sign in</string>
+    <string name="sign_up">sign up</string>
+    <string name="by_sb066coder">by sb066coder</string>
+    <string name="enter_login">Enter login</string>
+    <string name="enter_password">Enter password</string>
+    <string name="confirm_password">Confirm password</string>
+    <string name="avatar_image_uploading">Avatar image uploading</string>
 </resources>
