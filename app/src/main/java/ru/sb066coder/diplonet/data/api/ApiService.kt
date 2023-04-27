@@ -6,6 +6,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.create
 import retrofit2.http.*
+import ru.sb066coder.diplonet.auth.AppAuth
 import ru.sb066coder.diplonet.domain.dto.Post
 import java.util.concurrent.TimeUnit
 
@@ -15,6 +16,15 @@ private const val BASE_URL = "https://netomedia.ru/api/"
 
 private val client = OkHttpClient.Builder()
     .connectTimeout(30, TimeUnit.SECONDS)
+    .addInterceptor { chain ->
+        AppAuth.getInstance().authStateFlow.value.token?.let { token ->
+            val newRequest = chain.request().newBuilder()
+                .addHeader("Authorization", token)
+                .build()
+            return@addInterceptor chain.proceed(newRequest)
+        }
+        chain.proceed(chain.request())
+    }
     .build()
 
 private val retrofit = Retrofit.Builder()
@@ -23,23 +33,21 @@ private val retrofit = Retrofit.Builder()
     .addConverterFactory(GsonConverterFactory.create())
     .build()
 
-object PostApi {
-    val service: PostApiService by lazy {
+object Api {
+    val service: ApiService by lazy {
         retrofit.create()
     }
 }
 
-interface PostApiService {
+interface ApiService {
 
-    @Headers("Authorization: $AUTH_TOKEN")
+    
     @GET("posts")
     suspend fun getPosts(): Response<List<Post>>
 
-    @Headers("Authorization: $AUTH_TOKEN")
     @POST("posts/{id}/likes")
     suspend fun likePostById(@Path("id") id: Int): Response<Post>
 
-    @Headers("Authorization: $AUTH_TOKEN")
     @DELETE("posts/{id}/likes")
     suspend fun unlikePostById(@Path("id") id: Int): Response<Post>
 

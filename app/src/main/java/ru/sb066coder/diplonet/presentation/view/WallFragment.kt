@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import ru.sb066coder.diplonet.databinding.FragmentWallBinding
 import ru.sb066coder.diplonet.presentation.PostInteractionListener
 import ru.sb066coder.diplonet.presentation.adapter.PostAdapter
@@ -16,7 +17,7 @@ import ru.sb066coder.diplonet.presentation.viewmodel.PostViewModel
  * */
 class WallFragment : Fragment() {
 
-    private val viewModel = PostViewModel()
+    private val viewModel : PostViewModel by viewModels(::requireParentFragment)
     private lateinit var binding: FragmentWallBinding
 
     override fun onCreateView(

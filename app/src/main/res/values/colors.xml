@@ -13,4 +13,5 @@
     <color name="lime_200">#E6EE9C</color>
     <color name="lime_500">#CDDC39</color>
     <color name="red">#F44336</color>
+    <color name="azure_light">#E7FFFF</color>
 </resources>
