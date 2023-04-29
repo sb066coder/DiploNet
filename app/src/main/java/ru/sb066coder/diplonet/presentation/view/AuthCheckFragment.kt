@@ -19,6 +19,11 @@ class AuthCheckFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         val binding = FragmentAuthCheckBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         viewModel.data.observe(viewLifecycleOwner) {
             findNavController().navigate(
                 if (viewModel.authenticated) {
@@ -28,6 +33,5 @@ class AuthCheckFragment : Fragment() {
                 }
             )
         }
-        return binding.root
     }
 }

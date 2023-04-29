@@ -13,4 +13,7 @@
     <string name="confirm_password">Confirm password</string>
     <string name="avatar_image_uploading">Avatar image uploading</string>
     <string name="authorization_check">Authorization check</string>
+    <string name="error_login">Login shouldn\'t be empty</string>
+    <string name="error_password">Password shouldn\'t be empty</string>
+
 </resources>

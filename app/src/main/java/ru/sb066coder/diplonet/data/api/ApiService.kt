@@ -1,21 +1,25 @@
 package ru.sb066coder.diplonet.data.api
 
 import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.create
 import retrofit2.http.*
 import ru.sb066coder.diplonet.auth.AppAuth
+import ru.sb066coder.diplonet.auth.AuthenticationRequest
+import ru.sb066coder.diplonet.auth.Token
 import ru.sb066coder.diplonet.domain.dto.Post
 import java.util.concurrent.TimeUnit
 
-// TODO("replace with legal authorization")
-private const val AUTH_TOKEN = "03e28a93-9227-4212-8845-560c14e546a5"
 private const val BASE_URL = "https://netomedia.ru/api/"
 
 private val client = OkHttpClient.Builder()
     .connectTimeout(30, TimeUnit.SECONDS)
+    .addInterceptor(HttpLoggingInterceptor().apply {
+        level = HttpLoggingInterceptor.Level.BODY
+    })
     .addInterceptor { chain ->
         AppAuth.getInstance().authStateFlow.value.token?.let { token ->
             val newRequest = chain.request().newBuilder()
@@ -50,5 +54,8 @@ interface ApiService {
 
     @DELETE("posts/{id}/likes")
     suspend fun unlikePostById(@Path("id") id: Int): Response<Post>
+
+    @POST("users/authentication/")
+    suspend fun authorize(@Body authenticationRequest: AuthenticationRequest): Response<Token>
 
 }
