@@ -9,16 +9,14 @@ import ru.sb066coder.diplonet.data.repository.PostRepositoryImpl
 import ru.sb066coder.diplonet.domain.useCase.GetPostListUseCase
 import ru.sb066coder.diplonet.domain.PostRepository
 import ru.sb066coder.diplonet.domain.dto.Post
-import ru.sb066coder.diplonet.domain.useCase.GetPostByIdUseCase
-import ru.sb066coder.diplonet.domain.useCase.LikePostUseCase
+import ru.sb066coder.diplonet.domain.useCase.LikePostByIdUseCase
 
 class PostViewModel: ViewModel() {
 
     private val repository: PostRepository = PostRepositoryImpl()
 
     private val getPostListUseCase = GetPostListUseCase(repository)
-    private val getPostByIdUseCase = GetPostByIdUseCase(repository)
-    private val likePostUseCase = LikePostUseCase(repository)
+    private val likePostByIdUseCase = LikePostByIdUseCase(repository)
 
 
     private val _data = repository.postList as MutableLiveData
@@ -30,15 +28,7 @@ class PostViewModel: ViewModel() {
         getPostListUseCase()
     }
 
-    fun likePostById(id: Int) = viewModelScope.launch{
-        val post = getPostByIdUseCase(id)
-        likePostUseCase(
-            post,
-            if (!post.likedByMe) {
-                LikePostUseCase.LIKE
-            } else {
-                LikePostUseCase.UNLIKE
-            }
-        )
+    fun likePostById(id: Int, likedByMe: Boolean) = viewModelScope.launch{
+        likePostByIdUseCase(id, !likedByMe)
     }
 }

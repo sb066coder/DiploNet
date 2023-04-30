@@ -11,12 +11,14 @@ import androidx.navigation.fragment.findNavController
 import ru.sb066coder.diplonet.R
 import ru.sb066coder.diplonet.databinding.FragmentWelcomeBinding
 import ru.sb066coder.diplonet.presentation.util.AndroidUtils
-import ru.sb066coder.diplonet.presentation.util.TextWatcherImpl
+import ru.sb066coder.diplonet.presentation.util.EmptyFieldErrorCanceler
 import ru.sb066coder.diplonet.presentation.viewmodel.AuthViewModel
 
 class WelcomeFragment : Fragment() {
 
-    private lateinit var binding: FragmentWelcomeBinding
+    private var _binding: FragmentWelcomeBinding? = null
+    private val binding: FragmentWelcomeBinding
+        get() = _binding ?: throw RuntimeException("FragmentWelcomeBinding == null")
 
     private val viewModel: AuthViewModel by viewModels(::requireParentFragment)
 
@@ -25,10 +27,15 @@ class WelcomeFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
-        binding = FragmentWelcomeBinding.inflate(
+        _binding = FragmentWelcomeBinding.inflate(
             inflater, container, false
         )
         return binding.root
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -57,10 +64,10 @@ class WelcomeFragment : Fragment() {
                 }
             }
         }
-        binding.etLogin.addTextChangedListener(TextWatcherImpl(LOGIN_FIELD_NAME) {
+        binding.etLogin.addTextChangedListener(EmptyFieldErrorCanceler(LOGIN_FIELD_NAME) {
             viewModel.cancelInputError(it)
         })
-        binding.etPassword.addTextChangedListener(TextWatcherImpl(PASSWORD_FIELD_NAME) {
+        binding.etPassword.addTextChangedListener(EmptyFieldErrorCanceler(PASSWORD_FIELD_NAME) {
             viewModel.cancelInputError(it)
         })
         viewModel.authDone.observe(viewLifecycleOwner) {

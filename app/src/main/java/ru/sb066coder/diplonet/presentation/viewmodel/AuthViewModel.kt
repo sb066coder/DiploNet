@@ -63,7 +63,6 @@ class AuthViewModel : ViewModel() {
             ErrorResponse::class.java
         )
             .reason ?: "unknown"
-
     }
 
     fun signUp(login: String, password: String, confirmPassword: String, avatar: String? = null) {

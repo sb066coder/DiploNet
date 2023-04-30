@@ -18,14 +18,16 @@ import ru.sb066coder.diplonet.presentation.viewmodel.PostViewModel
 class WallFragment : Fragment() {
 
     private val viewModel : PostViewModel by viewModels(::requireParentFragment)
-    private lateinit var binding: FragmentWallBinding
+    private var _binding: FragmentWallBinding? = null
+    private val binding: FragmentWallBinding
+        get() = _binding ?: throw RuntimeException("FragmentWallBinding == null")
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentWallBinding.inflate(
+        _binding = FragmentWallBinding.inflate(
             inflater,
             container,
             false
@@ -33,13 +35,18 @@ class WallFragment : Fragment() {
         return binding.root
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.getData()
         val adapter = PostAdapter(object : PostInteractionListener {
-            override fun onLikeClick(id: Int) {
+            override fun onLikeClick(id: Int, likedByMe: Boolean) {
                 Log.i("PostAdapter", "onLikeClicked id $id")
-                viewModel.likePostById(id)
+                viewModel.likePostById(id, likedByMe)
             }
             override fun onItemClick(id: Int) {
                 Log.i("PostAdapter", "onItemClicked id $id")

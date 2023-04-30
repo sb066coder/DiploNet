@@ -3,7 +3,7 @@
     <string name="author_avatar">Author avatar</string>
     <string name="attached">Attachment:</string>
     <string name="button_like">Button like</string>
-    <string name="button_attachment">Button attachment</string>
+    <string name="icon_attachment">Icon attachment</string>
     <string name="welcome">Welcome DiploNet!</string>
     <string name="sign_in">sign in</string>
     <string name="sign_up">sign up</string>

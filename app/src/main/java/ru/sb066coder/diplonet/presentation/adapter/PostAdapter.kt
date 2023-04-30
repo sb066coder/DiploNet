@@ -12,7 +12,7 @@ import ru.sb066coder.diplonet.databinding.CardPostBinding
 import ru.sb066coder.diplonet.domain.dto.Attachment
 import ru.sb066coder.diplonet.domain.dto.Post
 import ru.sb066coder.diplonet.presentation.PostInteractionListener
-import ru.sb066coder.diplonet.presentation.ViewUtil
+import ru.sb066coder.diplonet.presentation.util.ViewUtil
 
 class PostAdapter(
     private val postInteractionListener: PostInteractionListener
@@ -38,7 +38,7 @@ class PostAdapter(
             tvContent.text = post.content
             tvAuthorName.text = post.author
             tvPublished.text = ViewUtil.formatDate(post.published)
-            // Show attachment symbol
+            // Show attachment icon
             if (post.attachment != null) {
                 grAttachment.visibility = View.VISIBLE
                 ivAttachment.setImageResource(
@@ -59,7 +59,7 @@ class PostAdapter(
             })
             tvAmountOfLikes.text = post.likeOwnerIds.size.toString()
             ivLike.setOnClickListener {
-                postInteractionListener.onLikeClick(post.id)
+                postInteractionListener.onLikeClick(post.id, post.likedByMe)
             }
             root.setOnClickListener {
                 postInteractionListener.onItemClick(post.id)
