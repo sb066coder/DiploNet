@@ -49,6 +49,49 @@ class WelcomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setupButtonClickListeners()
+        setupFieldsErrorHandling()
+        setupImageHandling()
+    }
+
+    private fun setupFieldsErrorHandling() {
+        binding.etName.addTextChangedListener(
+            EmptyFieldErrorCanceler(
+                NAME_FIELD_NAME, viewModel::cancelInputError
+            )
+        )
+        binding.etLogin.addTextChangedListener(
+            EmptyFieldErrorCanceler(
+                LOGIN_FIELD_NAME, viewModel::cancelInputError
+            )
+        )
+        binding.etPassword.addTextChangedListener(
+            EmptyFieldErrorCanceler(
+                PASSWORD_FIELD_NAME, viewModel::cancelInputError
+            )
+        )
+        binding.etConfirmPassword.addTextChangedListener(
+            EmptyFieldErrorCanceler(
+                CONFIRM_PASSWORD_FIELD_NAME, viewModel::cancelInputError
+            )
+        )
+        viewModel.errorName.observe(viewLifecycleOwner) {
+            binding.tilName.error = if (it) getString(R.string.error_name) else null
+        }
+        viewModel.errorLogin.observe(viewLifecycleOwner) {
+            binding.tilLogin.error = if (it) getString(R.string.error_login) else null
+        }
+        viewModel.errorPassword.observe(viewLifecycleOwner) {
+            binding.tilPassword.error = if (it) getString(R.string.error_password) else null
+        }
+        viewModel.errorConfirmPassword.observe(viewLifecycleOwner) {
+            binding.tilConfirmPassword.error = if (it) {
+                getString(R.string.confirmation_error_message)
+            } else null
+        }
+    }
+
+    private fun setupButtonClickListeners() {
         binding.btnSignUp.setOnClickListener {
             when (mode) {
                 Mode.SIGN_IN_MODE -> {
@@ -69,8 +112,7 @@ class WelcomeFragment : Fragment() {
             when (mode) {
                 Mode.SIGN_IN_MODE -> {
                     viewModel.signIn(
-                        binding.etLogin.text.toString(),
-                        binding.etPassword.text.toString()
+                        binding.etLogin.text.toString(), binding.etPassword.text.toString()
                     )
                     AndroidUtils.hideKeyboard(requireView())
                 }
@@ -80,38 +122,15 @@ class WelcomeFragment : Fragment() {
                 }
             }
         }
-        binding.etName.addTextChangedListener(EmptyFieldErrorCanceler(
-            NAME_FIELD_NAME, viewModel::cancelInputError
-        ))
-        binding.etLogin.addTextChangedListener(EmptyFieldErrorCanceler(
-            LOGIN_FIELD_NAME, viewModel::cancelInputError
-        ))
-        binding.etPassword.addTextChangedListener(EmptyFieldErrorCanceler(
-            PASSWORD_FIELD_NAME, viewModel::cancelInputError
-        ))
-        binding.etConfirmPassword.addTextChangedListener(EmptyFieldErrorCanceler(
-            CONFIRM_PASSWORD_FIELD_NAME, viewModel::cancelInputError
-        ))
         viewModel.authDone.observe(viewLifecycleOwner) {
             findNavController().navigate(R.id.authCheckFragment)
-        }
-        viewModel.errorName.observe(viewLifecycleOwner) {
-            binding.tilName.error = if (it) getString(R.string.error_name) else null
-        }
-        viewModel.errorLogin.observe(viewLifecycleOwner) {
-            binding.tilLogin.error = if (it) getString(R.string.error_login) else null
-        }
-        viewModel.errorPassword.observe(viewLifecycleOwner) {
-            binding.tilPassword.error = if (it) getString(R.string.error_password) else null
-        }
-        viewModel.errorConfirmPassword.observe(viewLifecycleOwner) {
-            binding.tilConfirmPassword.error = if (it) {
-                getString(R.string.confirmation_error_message)
-            } else null
         }
         viewModel.errorMessage.observe(viewLifecycleOwner) {
             Toast.makeText(requireActivity(), it, Toast.LENGTH_SHORT).show()
         }
+    }
+
+    private fun setupImageHandling() {
         val pickPhotoLauncher =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
                 when (it.resultCode) {
@@ -151,18 +170,16 @@ class WelcomeFragment : Fragment() {
                 }
             }
         }
-
     }
 
     companion object {
         enum class Mode {
             SIGN_IN_MODE, SIGN_UP_MODE
         }
+
         const val NAME_FIELD_NAME = "etName"
         const val LOGIN_FIELD_NAME = "etLogin"
         const val PASSWORD_FIELD_NAME = "etPassword"
         const val CONFIRM_PASSWORD_FIELD_NAME = "etConfirmPassword"
-}
-
-
+    }
 }
