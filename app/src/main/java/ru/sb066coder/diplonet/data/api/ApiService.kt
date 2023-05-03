@@ -1,6 +1,8 @@
 package ru.sb066coder.diplonet.data.api
 
+import okhttp3.MultipartBody
 import okhttp3.OkHttpClient
+import okhttp3.RequestBody
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Response
 import retrofit2.Retrofit
@@ -55,7 +57,16 @@ interface ApiService {
     @DELETE("posts/{id}/likes")
     suspend fun unlikePostById(@Path("id") id: Int): Response<Post>
 
-    @POST("users/authentication/")
+    @POST("users/authentication")
     suspend fun authorize(@Body authenticationRequest: AuthenticationRequest): Response<Token>
+
+    @Multipart
+    @POST("users/registration")
+    suspend fun register(
+        @Part("login") login: RequestBody,
+        @Part("password") password: RequestBody,
+        @Part("name") name: RequestBody,
+        @Part file: MultipartBody.Part?
+        ): Response<Token>
 
 }

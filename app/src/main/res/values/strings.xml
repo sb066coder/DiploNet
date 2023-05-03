@@ -8,12 +8,15 @@
     <string name="sign_in">sign in</string>
     <string name="sign_up">sign up</string>
     <string name="by_sb066coder">by sb066coder</string>
+    <string name="enter_name">Enter name</string>
     <string name="enter_login">Enter login</string>
     <string name="enter_password">Enter password</string>
     <string name="confirm_password">Confirm password</string>
     <string name="avatar_image_uploading">Avatar image uploading</string>
     <string name="authorization_check">Authorization check</string>
+    <string name="error_name">Name shouldn\'t be empty</string>
     <string name="error_login">Login shouldn\'t be empty</string>
     <string name="error_password">Password shouldn\'t be empty</string>
+    <string name="confirmation_error_message">Confirmation must be equal to the password</string>
 
 </resources>

@@ -13,11 +13,12 @@
         xmlns:app="http://schemas.android.com/apk/res-auto">
 
         <FrameLayout
+            android:id="@+id/flLabelBack"
             android:layout_width="310dp"
             android:layout_height="80dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginTop="150dp"
+            android:layout_marginTop="80dp"
             android:background="@color/azure_light">
 
         </FrameLayout>
@@ -26,12 +27,12 @@
             android:id="@+id/tvWelcomeLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="160dp"
+            android:layout_marginTop="8dp"
             android:layout_marginBottom="24dp"
             style="@style/Text_h1"
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginStart="60dp"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toTopOf="@id/flLabelBack"
             app:layout_constraintBottom_toTopOf="@id/tvAuthorName"
             android:text="@string/welcome" />
 
@@ -53,8 +54,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:constraint_referenced_ids=
-                "ivAvatar, tilConfirmPassword"
-            android:visibility="gone"/>
+                "ivAvatar, tilConfirmPassword, tilName"
+            android:visibility="gone"
+            tools:visibility="gone"/>
 
 
         <ImageView
@@ -63,15 +65,32 @@
             android:layout_width="160dp"
             android:layout_height="160dp"
             android:layout_marginTop="32dp"
-            android:padding="48dp"
-            app:tint="@color/indigo_700"
             android:background="@color/azure_light"
             android:elevation="5dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvAuthorName"
-            android:src="@drawable/baseline_add_24" />
+            app:layout_constraintTop_toBottomOf="@id/tvAuthorName"/>
 
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilName"
+            android:layout_width="wrap_content"
+            android:minWidth="300dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/ivAvatar"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:hint="@string/enter_name"
+                android:inputType="text"/>
+        </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/tilLogin"
@@ -80,7 +99,7 @@
             android:layout_marginTop="8dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/ivAvatar"
+            app:layout_constraintTop_toBottomOf="@id/tilName"
             android:layout_height="wrap_content">
 
             <com.google.android.material.textfield.TextInputEditText

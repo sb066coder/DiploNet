@@ -5,4 +5,15 @@
         <item name="android:textSize">24sp</item>
         <item name="android:textStyle">bold</item>
     </style>
+    <style name="empty_image_view">
+        <item name="android:padding">48dp</item>
+        <item name="android:src">@drawable/baseline_add_24</item>
+        <item name="android:tint">@color/indigo_700</item>
+        <item name="android:background">@color/azure_light</item>
+    </style>
+    <style name="with_content_image_view">
+        <item name="android:padding">0dp</item>
+        <item name="android:tint">@android:color/transparent</item>
+        <item name="android:background">@android:color/transparent</item>
+    </style>
 </resources>
