@@ -3,11 +3,16 @@ package ru.sb066coder.diplonet.data.repository
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import retrofit2.Response
-import ru.sb066coder.diplonet.data.api.Api
+import ru.sb066coder.diplonet.data.api.ApiService
 import ru.sb066coder.diplonet.domain.PostRepository
 import ru.sb066coder.diplonet.domain.dto.Post
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class PostRepositoryImpl : PostRepository {
+@Singleton
+class PostRepositoryImpl @Inject constructor (
+    private val apiService: ApiService
+) : PostRepository {
 
     private val _postList = MutableLiveData<List<Post>>()
     override val postList: LiveData<List<Post>>
@@ -15,7 +20,7 @@ class PostRepositoryImpl : PostRepository {
 
     override suspend fun getPostList() {
         try {
-            val response = Api.service.getPosts()
+            val response = apiService.getPosts()
             if (!response.isSuccessful) {
                 throw RuntimeException(response.message())
             }
@@ -45,7 +50,7 @@ class PostRepositoryImpl : PostRepository {
 
     override suspend fun likePostById(id: Int) {
         try {
-            val response = Api.service.likePostById(id)
+            val response = apiService.likePostById(id)
             updatePostList(response, id)
         } catch (e: Exception) {
             throw RuntimeException("Net exception")
@@ -54,7 +59,7 @@ class PostRepositoryImpl : PostRepository {
 
     override suspend fun unlikePostById(id: Int) {
         try {
-            val response = Api.service.unlikePostById(id)
+            val response = apiService.unlikePostById(id)
             updatePostList(response, id)
         } catch (e: Exception) {
             throw RuntimeException("Net exception")

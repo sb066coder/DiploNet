@@ -6,10 +6,14 @@
     app:startDestination="@id/authCheckFragment">
 
     <fragment
-        android:id="@+id/wallFragment"
-        android:name="ru.sb066coder.diplonet.presentation.view.WallFragment"
+        android:id="@+id/postRollFragment"
+        android:name="ru.sb066coder.diplonet.presentation.view.PostRollFragment"
         android:label="WallFragment"
-        tools:layout="@layout/fragment_wall"/>
+        tools:layout="@layout/fragment_post_roll">
+        <action
+            android:id="@+id/action_postRollFragment_to_openPostFragment"
+            app:destination="@id/openPostFragment" />
+    </fragment>
     <fragment
         android:id="@+id/welcomeFragment"
         android:name="ru.sb066coder.diplonet.presentation.view.WelcomeFragment"
@@ -25,6 +29,15 @@
             app:destination="@id/welcomeFragment" />
         <action
             android:id="@+id/action_authCheckFragment_to_wallFragment"
-            app:destination="@id/wallFragment" />
+            app:destination="@id/postRollFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/openPostFragment"
+        android:name="ru.sb066coder.diplonet.presentation.view.OpenPostFragment"
+        android:label="OpenPostFragment"
+        tools:layout="@layout/fragment_open_post">
+        <argument
+            android:name="id"
+            app:argType="integer" />
     </fragment>
 </navigation>

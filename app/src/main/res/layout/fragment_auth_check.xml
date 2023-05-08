@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center"
-    android:background="@drawable/welcome_background"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@drawable/welcome_background">
 
     <TextView
         android:id="@+id/textView"
@@ -13,4 +13,4 @@
         android:layout_gravity="center"
         style="@style/Text_h1"
         android:text="@string/authorization_check" />
-</LinearLayout>
+</FrameLayout>

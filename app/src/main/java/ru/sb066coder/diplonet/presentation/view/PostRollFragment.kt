@@ -7,30 +7,30 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import ru.sb066coder.diplonet.databinding.FragmentWallBinding
+import androidx.navigation.fragment.findNavController
+import dagger.hilt.android.AndroidEntryPoint
+import ru.sb066coder.diplonet.databinding.FragmentPostRollBinding
 import ru.sb066coder.diplonet.presentation.PostInteractionListener
 import ru.sb066coder.diplonet.presentation.adapter.PostAdapter
-import ru.sb066coder.diplonet.presentation.viewmodel.PostViewModel
+import ru.sb066coder.diplonet.presentation.viewmodel.PostRollViewModel
 
 /**
- * Экран, на котором показывается список постов
+ * Screen which the roll of posts is shown on
  * */
-class WallFragment : Fragment() {
 
-    private val viewModel : PostViewModel by viewModels(::requireParentFragment)
-    private var _binding: FragmentWallBinding? = null
-    private val binding: FragmentWallBinding
+@AndroidEntryPoint
+class PostRollFragment : Fragment() {
+
+    private val viewModel : PostRollViewModel by viewModels()
+    private var _binding: FragmentPostRollBinding? = null
+    private val binding: FragmentPostRollBinding
         get() = _binding ?: throw RuntimeException("FragmentWallBinding == null")
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentWallBinding.inflate(
-            inflater,
-            container,
-            false
+        _binding = FragmentPostRollBinding.inflate(
+            inflater, container, false
         )
         return binding.root
     }
@@ -50,6 +50,9 @@ class WallFragment : Fragment() {
             }
             override fun onItemClick(id: Int) {
                 Log.i("PostAdapter", "onItemClicked id $id")
+                findNavController().navigate(
+                    PostRollFragmentDirections.actionPostRollFragmentToOpenPostFragment(id)
+                )
             }
         })
         binding.rvPosts.adapter = adapter

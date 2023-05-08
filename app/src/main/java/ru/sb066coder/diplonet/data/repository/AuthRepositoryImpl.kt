@@ -11,18 +11,24 @@ import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import retrofit2.Response
 import ru.sb066coder.diplonet.auth.*
-import ru.sb066coder.diplonet.data.api.Api
+import ru.sb066coder.diplonet.data.api.ApiService
 import ru.sb066coder.diplonet.data.api.ErrorResponse
 import java.io.File
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class AuthRepositoryImpl : AuthRepository {
+@Singleton
+class AuthRepositoryImpl @Inject constructor (
+    private val apiService: ApiService,
+    private val appAuth: AppAuth
+) : AuthRepository {
 
-    private val apiService = Api.service
+
 
     override val data: LiveData<AuthState>
-        get() = AppAuth.getInstance().authStateFlow.asLiveData(Dispatchers.Default)
+        get() = appAuth.authStateFlow.asLiveData(Dispatchers.Default)
     override val authenticated: Boolean
-        get() = AppAuth.getInstance().authStateFlow.value.id != 0
+        get() = appAuth.authStateFlow.value.id != 0
 
 
     override suspend fun signIn(login: String, password: String): String? {
@@ -32,7 +38,7 @@ class AuthRepositoryImpl : AuthRepository {
                 return "Access error: ${getErrorReason(response)}"
             }
             response.body()?.let {
-                AppAuth.getInstance().setAuth(it.id, it.token)
+                appAuth.setAuth(it.id, it.token)
                 return null
             } ?: throw RuntimeException("Body is null")
         } catch (e: Exception) {
@@ -54,7 +60,7 @@ class AuthRepositoryImpl : AuthRepository {
                 return "Access error: ${getErrorReason(response)}"
             }
             response.body()?.let {
-                AppAuth.getInstance().setAuth(it.id, it.token)
+                appAuth.setAuth(it.id, it.token)
                 return null
             } ?: throw RuntimeException("Body is null")
         } catch (e: Exception) {
@@ -63,7 +69,7 @@ class AuthRepositoryImpl : AuthRepository {
     }
 
     override fun signOut() {
-        AppAuth.getInstance().removeAuth()
+        appAuth.removeAuth()
     }
 
     private fun String.toRequestBody(): RequestBody =

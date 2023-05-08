@@ -16,20 +16,24 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.github.dhaval2404.imagepicker.ImagePicker
 import com.github.dhaval2404.imagepicker.constant.ImageProvider
+import dagger.hilt.android.AndroidEntryPoint
 import ru.sb066coder.diplonet.R
 import ru.sb066coder.diplonet.databinding.FragmentWelcomeBinding
 import ru.sb066coder.diplonet.presentation.util.AndroidUtils
 import ru.sb066coder.diplonet.presentation.util.EmptyFieldErrorCanceler
 import ru.sb066coder.diplonet.presentation.util.ViewUtil.toPx
 import ru.sb066coder.diplonet.presentation.viewmodel.AuthViewModel
-
+/**
+ * Screen for authorization or registration of user
+ * */
+@AndroidEntryPoint
 class WelcomeFragment : Fragment() {
 
     private var _binding: FragmentWelcomeBinding? = null
     private val binding: FragmentWelcomeBinding
         get() = _binding ?: throw RuntimeException("FragmentWelcomeBinding == null")
 
-    private val viewModel: AuthViewModel by viewModels(::requireParentFragment)
+    private val viewModel: AuthViewModel by viewModels()
 
     private var mode: Mode = Mode.SIGN_IN_MODE
 
@@ -105,6 +109,7 @@ class WelcomeFragment : Fragment() {
                         binding.etPassword.text.toString(),
                         binding.etConfirmPassword.text.toString()
                     )
+                    AndroidUtils.hideKeyboard(requireView())
                 }
             }
         }

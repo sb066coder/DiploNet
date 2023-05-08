@@ -1,11 +1,15 @@
 package ru.sb066coder.diplonet.auth
 
 import android.content.Context
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class AppAuth private constructor(context: Context) {
+@Singleton
+class AppAuth @Inject constructor (@ApplicationContext context: Context) {
 
     private val prefs = context.getSharedPreferences("auth", Context.MODE_PRIVATE)
 
@@ -50,17 +54,5 @@ class AppAuth private constructor(context: Context) {
         private const val ID_KEY = "id_key"
         private const val TOKEN_KEY = "token_key"
 
-        @Volatile
-        private var instance: AppAuth? = null
-
-        fun getInstance(): AppAuth = synchronized(this) {
-            instance ?: throw java.lang.IllegalStateException(
-                "AppAuth is not initialized, you must call AppAuth.initApp(context: Context) first."
-            )
-        }
-
-        fun initApp(context: Context): AppAuth = instance ?: synchronized(this) {
-            instance ?: AppAuth(context).also { instance = it }
-        }
     }
 }

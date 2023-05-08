@@ -2,6 +2,7 @@ package ru.sb066coder.diplonet.presentation.view
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import dagger.hilt.android.AndroidEntryPoint
 import ru.sb066coder.diplonet.R
 
 /**
@@ -19,6 +20,8 @@ import ru.sb066coder.diplonet.R
  * ----- Детальная информация о месте работы
  * --- Лента постов пользователя
  */
+
+@AndroidEntryPoint
 class AppActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -7,19 +7,23 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.fragment.findNavController
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import ru.sb066coder.diplonet.R
 import ru.sb066coder.diplonet.auth.AuthRepository
 import ru.sb066coder.diplonet.auth.AuthState
-import ru.sb066coder.diplonet.data.repository.AuthRepositoryImpl
 import ru.sb066coder.diplonet.presentation.util.PhotoModel
 import ru.sb066coder.diplonet.presentation.util.SingleLiveEvent
 import ru.sb066coder.diplonet.presentation.view.WelcomeFragment
 import java.io.File
+import javax.inject.Inject
 
-class AuthViewModel : ViewModel() {
+@HiltViewModel
+class AuthViewModel @Inject constructor (
+    private val repository: AuthRepository
+) : ViewModel() {
 
-    private val repository: AuthRepository = AuthRepositoryImpl()
+
 
     val data: LiveData<AuthState> = repository.data
     val authenticated: Boolean

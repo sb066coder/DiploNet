@@ -1,9 +1,9 @@
 package ru.sb066coder.diplonet.domain.useCase
 
 import ru.sb066coder.diplonet.domain.PostRepository
-import ru.sb066coder.diplonet.domain.dto.Post
+import javax.inject.Inject
 
-class GetPostListUseCase(
+class GetPostListUseCase @Inject constructor (
     private val postRepository: PostRepository
 ) {
     suspend operator fun invoke() {
