@@ -16,6 +16,12 @@ interface ApiService {
     @POST("posts/{id}/likes")
     suspend fun likePostById(@Path("id") id: Int): Response<Post>
 
+    @GET("posts/latest")
+    suspend fun getLatest(@Query("count") count: Int): Response<List<Post>>
+
+    @GET("posts/{id}/before")
+    suspend fun getBefore(@Path("id") id: Int, @Query("count") count : Int) : Response<List<Post>>
+
     @DELETE("posts/{id}/likes")
     suspend fun unlikePostById(@Path("id") id: Int): Response<Post>
 

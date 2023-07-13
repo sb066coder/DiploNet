@@ -62,7 +62,7 @@ class PostAdapter(
                 postInteractionListener.onLikeClick(post.id, post.likedByMe)
             }
             root.setOnClickListener {
-                postInteractionListener.onItemClick(post.id)
+                postInteractionListener.onItemClick(post)
             }
         }
     }

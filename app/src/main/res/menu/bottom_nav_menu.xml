@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/navigation_post_roll"
+        android:icon="@drawable/ic_video_attachment"
+        android:title="@string/posts" />
+
+    <item
+        android:id="@+id/navigation_event_roll"
+        android:icon="@drawable/ic_video_attachment"
+        android:title="@string/events" />
+
+    <item
+        android:id="@+id/navigation_logout"
+        android:icon="@drawable/ic_video_attachment"
+        android:title="@string/log_out" />
+
+</menu>

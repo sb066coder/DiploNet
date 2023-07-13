@@ -1,9 +1,14 @@
 package ru.sb066coder.diplonet.data.repository
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.firstOrNull
 import retrofit2.Response
 import ru.sb066coder.diplonet.data.api.ApiService
+import ru.sb066coder.diplonet.data.paging.PostPagingSource
 import ru.sb066coder.diplonet.domain.PostRepository
 import ru.sb066coder.diplonet.domain.dto.Post
 import javax.inject.Inject
@@ -15,8 +20,14 @@ class PostRepositoryImpl @Inject constructor (
 ) : PostRepository {
 
     private val _postList = MutableLiveData<List<Post>>()
-    override val postList: LiveData<List<Post>>
-        get() = _postList
+    override val data: Flow<PagingData<Post>> = getNewPager()
+
+    private fun getNewPager(): Flow<PagingData<Post>> = Pager(
+        config = PagingConfig(pageSize = 10, enablePlaceholders = false),
+        pagingSourceFactory = {
+            PostPagingSource(apiService)
+        }
+    ).flow
 
     override suspend fun getPostList() {
         try {
@@ -31,7 +42,7 @@ class PostRepositoryImpl @Inject constructor (
     }
 
     override fun getPostById(id: Int): Post {
-        return postList.value?.firstOrNull { post ->
+        return data. //?.firstOrNull { post ->
             post.id == id
         } ?: throw RuntimeException("No post with id $id")
     }

@@ -10,6 +10,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
 import ru.sb066coder.diplonet.databinding.FragmentPostRollBinding
+import ru.sb066coder.diplonet.domain.dto.Post
 import ru.sb066coder.diplonet.presentation.PostInteractionListener
 import ru.sb066coder.diplonet.presentation.adapter.PostAdapter
 import ru.sb066coder.diplonet.presentation.viewmodel.PostRollViewModel

@@ -13,6 +13,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import ru.sb066coder.diplonet.R
 import ru.sb066coder.diplonet.databinding.FragmentOpenPostBinding
 import ru.sb066coder.diplonet.domain.dto.Attachment
+import ru.sb066coder.diplonet.domain.dto.Post
 import ru.sb066coder.diplonet.presentation.viewmodel.OpenPostViewModel
 
 /**
@@ -63,8 +64,8 @@ class OpenPostFragment: Fragment() {
                     binding.ivAttachment.visibility = View.VISIBLE
                     setImage(binding.ivAttachment, post.attachment.url)
                 }
-                Attachment.Companion.AttachmentType.VIDEO -> {}
-                Attachment.Companion.AttachmentType.AUDIO -> {}
+                Attachment.Companion.AttachmentType.VIDEO -> {} //TODO: Realize attachment play
+                Attachment.Companion.AttachmentType.AUDIO -> {} //TODO: Realize attachment play
                 null -> {}
             }
             // Show like icon

@@ -18,5 +18,8 @@
     <string name="error_login">Login shouldn\'t be empty</string>
     <string name="error_password">Password shouldn\'t be empty</string>
     <string name="confirmation_error_message">Confirmation must be equal to the password</string>
+    <string name="posts">Posts</string>
+    <string name="events">Events</string>
+    <string name="log_out">Log out</string>
 
 </resources>
