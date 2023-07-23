@@ -7,8 +7,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
 import ru.sb066coder.diplonet.databinding.FragmentPostRollBinding
 import ru.sb066coder.diplonet.domain.dto.Post
 import ru.sb066coder.diplonet.presentation.PostInteractionListener
@@ -57,9 +59,11 @@ class PostRollFragment : Fragment() {
             }
         })
         binding.rvPosts.adapter = adapter
-        viewModel.data.observe(viewLifecycleOwner) {
-            adapter.submitList(it)
-            Log.d("WallFragment", it.toString())
+        lifecycleScope.launchWhenCreated {
+            viewModel.data.collectLatest {
+                adapter.submitData(it)
+                Log.d("WallFragment", it.toString())
+            }
         }
     }
 }

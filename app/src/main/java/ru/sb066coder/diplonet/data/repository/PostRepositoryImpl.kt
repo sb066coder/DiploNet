@@ -8,6 +8,8 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.firstOrNull
 import retrofit2.Response
 import ru.sb066coder.diplonet.data.api.ApiService
+import ru.sb066coder.diplonet.data.database.PostDao
+import ru.sb066coder.diplonet.data.database.PostDbModel
 import ru.sb066coder.diplonet.data.paging.PostPagingSource
 import ru.sb066coder.diplonet.domain.PostRepository
 import ru.sb066coder.diplonet.domain.dto.Post
@@ -16,7 +18,8 @@ import javax.inject.Singleton
 
 @Singleton
 class PostRepositoryImpl @Inject constructor (
-    private val apiService: ApiService
+    private val apiService: ApiService,
+    private val postDao: PostDao
 ) : PostRepository {
 
     private val _postList = MutableLiveData<List<Post>>()
@@ -24,9 +27,7 @@ class PostRepositoryImpl @Inject constructor (
 
     private fun getNewPager(): Flow<PagingData<Post>> = Pager(
         config = PagingConfig(pageSize = 10, enablePlaceholders = false),
-        pagingSourceFactory = {
-            PostPagingSource(apiService)
-        }
+        pagingSourceFactory = { PostPagingSource(apiService, postDao) }
     ).flow
 
     override suspend fun getPostList() {
@@ -41,10 +42,8 @@ class PostRepositoryImpl @Inject constructor (
         }
     }
 
-    override fun getPostById(id: Int): Post {
-        return data. //?.firstOrNull { post ->
-            post.id == id
-        } ?: throw RuntimeException("No post with id $id")
+    override suspend fun getPostById(id: Int): Post {
+        return postDao.getPostById(id).toDto()
     }
 
     override fun addPost(post: Post) {
@@ -62,7 +61,7 @@ class PostRepositoryImpl @Inject constructor (
     override suspend fun likePostById(id: Int) {
         try {
             val response = apiService.likePostById(id)
-            updatePostList(response, id)
+            updatePostList(response)
         } catch (e: Exception) {
             throw RuntimeException("Net exception")
         }
@@ -71,26 +70,27 @@ class PostRepositoryImpl @Inject constructor (
     override suspend fun unlikePostById(id: Int) {
         try {
             val response = apiService.unlikePostById(id)
-            updatePostList(response, id)
+            updatePostList(response)
         } catch (e: Exception) {
             throw RuntimeException("Net exception")
         }
     }
 
-    private fun updatePostList(
-        response: Response<Post>,
-        id: Int
+    private suspend fun updatePostList(
+        response: Response<Post>
     ) {
+//        TODO("Not yet implemented")
         if (!response.isSuccessful) {
             throw RuntimeException(response.message())
         }
         val newPost = response.body() ?: throw RuntimeException("Body == null")
-        _postList.value = postList.value?.map { post ->
-            if (post.id != id) {
-                post
-            } else {
-                newPost
-            }
-        }
+        postDao.insert(listOf(PostDbModel.fromDto(newPost)))
+//        _postList.value = postList.value?.map { post ->
+//            if (post.id != id) {
+//                post
+//            } else {
+//                newPost
+//            }
+//        }
     }
 }

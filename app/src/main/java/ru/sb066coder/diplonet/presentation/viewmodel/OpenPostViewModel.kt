@@ -1,5 +1,7 @@
 package ru.sb066coder.diplonet.presentation.viewmodel
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -15,8 +17,14 @@ class OpenPostViewModel @Inject constructor(
     private val likePostByIdUseCase: LikePostByIdUseCase
 ) : ViewModel() {
 
-    fun getPostById(id: Int): Post {
-        return getPostByIdUseCase(id)
+    private val _post = MutableLiveData<Post>()
+    val post: LiveData<Post>
+        get() = _post
+
+    fun getPostById(id: Int) {
+        viewModelScope.launch {
+            _post.value = getPostByIdUseCase(id) ?: throw RuntimeException("post is NULL")
+        }
     }
 
     fun likePostById(id: Int, likedByMe: Boolean) = viewModelScope.launch{

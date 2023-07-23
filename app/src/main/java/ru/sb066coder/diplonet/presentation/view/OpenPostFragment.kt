@@ -17,7 +17,7 @@ import ru.sb066coder.diplonet.domain.dto.Post
 import ru.sb066coder.diplonet.presentation.viewmodel.OpenPostViewModel
 
 /**
- * Screen which the post is shown on
+ * Screen on which the post is shown
  * */
 
 @AndroidEntryPoint
@@ -47,11 +47,14 @@ class OpenPostFragment: Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        fillFields()
+        viewModel.post.observe(viewLifecycleOwner) {
+            fillFields(it)
+        }
+
     }
 
-    private fun fillFields() {
-        val post = viewModel.getPostById(args.id)
+    private fun fillFields(post: Post) {
+//        val post = viewModel.getPostById(args.id)
         // Author avatar downloading
         setImage(binding.ivAuthorAvatar, post.authorAvatar)
         with(binding) {

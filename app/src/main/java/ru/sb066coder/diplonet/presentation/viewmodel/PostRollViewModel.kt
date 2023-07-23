@@ -20,9 +20,9 @@ class PostRollViewModel @Inject constructor (
 ): ViewModel() {
 
 
-    private val _data = repository.data as MutableLiveData<List<Post>>
-    val data: LiveData<List<Post>>
-        get() = _data
+//    private val _data = repository.data
+    val data = repository.data//LiveData<List<Post>>
+//        get() = _data.co
 
 
     fun getData() = viewModelScope.launch {

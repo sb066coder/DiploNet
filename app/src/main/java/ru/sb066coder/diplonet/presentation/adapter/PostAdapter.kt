@@ -3,6 +3,7 @@ package ru.sb066coder.diplonet.presentation.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil.ItemCallback
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
@@ -16,7 +17,7 @@ import ru.sb066coder.diplonet.presentation.util.ViewUtil
 
 class PostAdapter(
     private val postInteractionListener: PostInteractionListener
-) : ListAdapter<Post, PostAdapter.PostViewHolder>(PostDiffCallback()) {
+) : PagingDataAdapter<Post, PostAdapter.PostViewHolder>(PostDiffCallback()) {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostViewHolder {
@@ -26,7 +27,7 @@ class PostAdapter(
     }
 
     override fun onBindViewHolder(holder: PostViewHolder, position: Int) {
-        val post = getItem(position)
+        val post = getItem(position) ?: return
         // Author avatar downloading
         Glide.with(holder.binding.ivAuthorAvatar)
             .load(post.authorAvatar)
@@ -62,7 +63,7 @@ class PostAdapter(
                 postInteractionListener.onLikeClick(post.id, post.likedByMe)
             }
             root.setOnClickListener {
-                postInteractionListener.onItemClick(post)
+                postInteractionListener.onItemClick(post.id)
             }
         }
     }
