@@ -4,7 +4,6 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface PostDao {
@@ -13,7 +12,7 @@ interface PostDao {
     suspend fun getPostList(): List<PostDbModel>
 
     @Query("SELECT * FROM PostDbModel WHERE id = :id")
-    suspend fun getPostById(id: Int): PostDbModel
+    suspend fun getPostById(id: Int): PostDbModel?
 
     @Insert(onConflict =  OnConflictStrategy.REPLACE)
     suspend fun insert(posts: List<PostDbModel>)

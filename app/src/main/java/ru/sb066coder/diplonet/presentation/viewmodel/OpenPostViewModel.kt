@@ -17,6 +17,7 @@ class OpenPostViewModel @Inject constructor(
     private val likePostByIdUseCase: LikePostByIdUseCase
 ) : ViewModel() {
 
+
     private val _post = MutableLiveData<Post>()
     val post: LiveData<Post>
         get() = _post

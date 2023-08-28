@@ -33,8 +33,6 @@ class DbModule {
     ): PostDao = appDatabase.appDao()
 
     companion object {
-        private var INSTANCE: AppDatabase? = null
-        private val LOCK = Any()
         private const val DB_NAME = "diplo_net.db"
     }
 }

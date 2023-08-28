@@ -78,14 +78,6 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <androidx.constraintlayout.widget.Group
-                android:id="@+id/grAudio"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:constraint_referenced_ids="ivIconAudio, sbAudio"
-                android:visibility="gone"
-                />
-
             <ImageView
                 android:id="@+id/ivIconAudio"
                 android:layout_width="36dp"
@@ -94,30 +86,17 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="8dp"
                 app:tint="@color/indigo_500"
-                android:contentDescription="@string/icon_attachment"/>
-
-            <SeekBar
-                android:id="@+id/sbAudio"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-            <androidx.constraintlayout.widget.Group
-                android:id="@+id/grVideo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:constraint_referenced_ids="vvAttachment, sbVideo"
-                android:visibility="gone" />
+                android:contentDescription="@string/icon_attachment"
+                android:visibility="gone"
+                tools:visibility="visible"/>
 
             <VideoView
                 android:id="@+id/vvAttachment"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:adjustViewBounds="true" />
-
-            <SeekBar
-                android:id="@+id/sbVideo"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="300dp"
+                android:adjustViewBounds="true"
+                android:visibility="gone"
+                tools:visibility="visible" />
 
             <ImageView
                 android:id="@+id/ivAttachment"

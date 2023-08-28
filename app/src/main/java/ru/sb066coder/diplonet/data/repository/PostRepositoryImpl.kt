@@ -5,7 +5,6 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.firstOrNull
 import retrofit2.Response
 import ru.sb066coder.diplonet.data.api.ApiService
 import ru.sb066coder.diplonet.data.database.PostDao
@@ -43,7 +42,7 @@ class PostRepositoryImpl @Inject constructor (
     }
 
     override suspend fun getPostById(id: Int): Post {
-        return postDao.getPostById(id).toDto()
+        return postDao.getPostById(id)?.toDto() ?: throw RuntimeException("no post with id $id in database")
     }
 
     override fun addPost(post: Post) {

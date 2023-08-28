@@ -1,10 +1,12 @@
 package ru.sb066coder.diplonet.presentation.view
 
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.MediaController
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
@@ -14,6 +16,7 @@ import ru.sb066coder.diplonet.R
 import ru.sb066coder.diplonet.databinding.FragmentOpenPostBinding
 import ru.sb066coder.diplonet.domain.dto.Attachment
 import ru.sb066coder.diplonet.domain.dto.Post
+import ru.sb066coder.diplonet.presentation.util.MediaLifecycleObserver
 import ru.sb066coder.diplonet.presentation.viewmodel.OpenPostViewModel
 
 /**
@@ -31,12 +34,15 @@ class OpenPostFragment: Fragment() {
     private val binding: FragmentOpenPostBinding
         get() = _binding ?: throw RuntimeException("FragmentOpenPostBinding == null")
 
+    private val mediaObserver = MediaLifecycleObserver()
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         _binding = FragmentOpenPostBinding.inflate(
             inflater, container, false
         )
+        lifecycle.addObserver(mediaObserver)
         return binding.root
     }
 
@@ -47,6 +53,7 @@ class OpenPostFragment: Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        viewModel.getPostById(args.id)
         viewModel.post.observe(viewLifecycleOwner) {
             fillFields(it)
         }
@@ -64,11 +71,28 @@ class OpenPostFragment: Fragment() {
             // Show attachment content
             when (post.attachment?.type) {
                 Attachment.Companion.AttachmentType.IMAGE -> {
-                    binding.ivAttachment.visibility = View.VISIBLE
-                    setImage(binding.ivAttachment, post.attachment.url)
+                    ivAttachment.visibility = View.VISIBLE
+                    setImage(ivAttachment, post.attachment.url)
                 }
-                Attachment.Companion.AttachmentType.VIDEO -> {} //TODO: Realize attachment play
-                Attachment.Companion.AttachmentType.AUDIO -> {} //TODO: Realize attachment play
+                Attachment.Companion.AttachmentType.VIDEO -> {
+                    vvAttachment.visibility = View.VISIBLE
+                    vvAttachment.apply {
+                        setMediaController(MediaController(requireContext()))
+                        setVideoURI(
+                            Uri.parse(post.attachment.url)
+                        )
+                        setOnPreparedListener { start() }
+                        setOnCompletionListener { stopPlayback() }
+                    }
+                }
+                Attachment.Companion.AttachmentType.AUDIO -> {
+                    ivIconAudio.visibility = View.VISIBLE
+                    ivIconAudio.setOnClickListener {
+                        mediaObserver.apply {
+                            player?.setDataSource(post.attachment.url)
+                        }.play()
+                    }
+                }
                 null -> {}
             }
             // Show like icon

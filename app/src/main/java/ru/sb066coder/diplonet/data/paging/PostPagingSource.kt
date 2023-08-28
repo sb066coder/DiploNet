@@ -36,7 +36,7 @@ class PostPagingSource(
 
             val data = result.body().orEmpty()
             if (data.isNotEmpty()) {
-                postDao.clearTable()
+                //postDao.clearTable()
                 postDao.insert(data.fromDto())
             }
             return LoadResult.Page(postDao.getPostList().toDto(), prevKey = params.key, nextKey = data.lastOrNull()?.id)
