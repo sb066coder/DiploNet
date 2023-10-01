@@ -2,6 +2,7 @@ package ru.sb066coder.diplonet.data.paging
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
+import kotlinx.coroutines.flow.collectLatest
 import retrofit2.HttpException
 import ru.sb066coder.diplonet.data.api.ApiService
 import ru.sb066coder.diplonet.data.database.PostDao
@@ -39,7 +40,7 @@ class PostPagingSource(
                 //postDao.clearTable()
                 postDao.insert(data.fromDto())
             }
-            return LoadResult.Page(postDao.getPostList().toDto(), prevKey = params.key, nextKey = data.lastOrNull()?.id)
+            return LoadResult.Page(data, prevKey = params.key, nextKey = data.lastOrNull()?.id)
         } catch (e: IOException) {
             return LoadResult.Error(e)
         }

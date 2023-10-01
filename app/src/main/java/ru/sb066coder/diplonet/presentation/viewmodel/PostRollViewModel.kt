@@ -6,9 +6,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import ru.sb066coder.diplonet.domain.useCase.GetPostListUseCase
+//import ru.sb066coder.diplonet.domain.useCase.GetPostListUseCase
 import ru.sb066coder.diplonet.domain.PostRepository
 import ru.sb066coder.diplonet.domain.dto.Post
+import ru.sb066coder.diplonet.domain.useCase.GetPostListUseCase
 import ru.sb066coder.diplonet.domain.useCase.LikePostByIdUseCase
 import javax.inject.Inject
 
@@ -20,9 +21,7 @@ class PostRollViewModel @Inject constructor (
 ): ViewModel() {
 
 
-//    private val _data = repository.data
     val data = repository.data//LiveData<List<Post>>
-//        get() = _data.co
 
 
     fun getData() = viewModelScope.launch {

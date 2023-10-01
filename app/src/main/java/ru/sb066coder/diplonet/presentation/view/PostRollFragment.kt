@@ -7,10 +7,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import ru.sb066coder.diplonet.databinding.FragmentPostRollBinding
 import ru.sb066coder.diplonet.domain.dto.Post
 import ru.sb066coder.diplonet.presentation.PostInteractionListener
@@ -45,7 +48,7 @@ class PostRollFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.getData()
+        //viewModel.getData()
         val adapter = PostAdapter(object : PostInteractionListener {
             override fun onLikeClick(id: Int, likedByMe: Boolean) {
                 Log.i("PostAdapter", "onLikeClicked id $id")
@@ -58,11 +61,12 @@ class PostRollFragment : Fragment() {
                 )
             }
         })
-        binding.rvPosts.adapter = adapter
-        lifecycleScope.launchWhenCreated {
-            viewModel.data.collectLatest {
-                adapter.submitData(it)
-                Log.d("WallFragment", it.toString())
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.data.collectLatest {
+                    adapter.submitData(it)
+                    Log.d("WallFragment", it.toString())
+                }
             }
         }
     }
