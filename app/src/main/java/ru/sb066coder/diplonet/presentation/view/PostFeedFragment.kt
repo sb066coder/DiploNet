@@ -14,28 +14,27 @@ import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import ru.sb066coder.diplonet.databinding.FragmentPostRollBinding
-import ru.sb066coder.diplonet.domain.dto.Post
+import ru.sb066coder.diplonet.databinding.FragmentPostFeedBinding
 import ru.sb066coder.diplonet.presentation.PostInteractionListener
 import ru.sb066coder.diplonet.presentation.adapter.PostAdapter
-import ru.sb066coder.diplonet.presentation.viewmodel.PostRollViewModel
+import ru.sb066coder.diplonet.presentation.viewmodel.PostFeedViewModel
 
 /**
  * Screen which the roll of posts is shown on
  * */
 
 @AndroidEntryPoint
-class PostRollFragment : Fragment() {
+class PostFeedFragment : Fragment() {
 
-    private val viewModel : PostRollViewModel by viewModels()
-    private var _binding: FragmentPostRollBinding? = null
-    private val binding: FragmentPostRollBinding
-        get() = _binding ?: throw RuntimeException("FragmentWallBinding == null")
+    private val viewModel : PostFeedViewModel by viewModels()
+    private var _binding: FragmentPostFeedBinding? = null
+    private val binding: FragmentPostFeedBinding
+        get() = _binding ?: throw RuntimeException("FragmentPostFeedBinding == null")
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentPostRollBinding.inflate(
+        _binding = FragmentPostFeedBinding.inflate(
             inflater, container, false
         )
         return binding.root
@@ -57,12 +56,13 @@ class PostRollFragment : Fragment() {
             override fun onItemClick(id: Int) {
                 Log.i("PostAdapter", "onItemClicked id $id")
                 findNavController().navigate(
-                    PostRollFragmentDirections.actionPostRollFragmentToOpenPostFragment(id)
+                    PostFeedFragmentDirections.actionPostFeedFragmentToOpenPostFragment(id)
                 )
             }
         })
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+        binding.rvPosts.adapter = adapter
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.RESUMED) {
                 viewModel.data.collectLatest {
                     adapter.submitData(it)
                     Log.d("WallFragment", it.toString())

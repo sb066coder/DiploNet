@@ -9,8 +9,8 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface PostDao {
 
-    @Query("SELECT * FROM PostDbModel ORDER BY id DESC")
-    suspend fun getPostList(): Flow<List<PostDbModel>>
+//    @Query("SELECT * FROM PostDbModel ORDER BY id DESC")
+//    suspend fun getPostList(): Flow<List<PostDbModel>>
 
     @Query("SELECT * FROM PostDbModel WHERE id = :id")
     suspend fun getPostById(id: Int): PostDbModel?
@@ -20,5 +20,4 @@ interface PostDao {
 
     @Query("DELETE FROM PostDbModel")
     suspend fun clearTable()
-
 }

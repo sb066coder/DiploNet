@@ -1,5 +1,6 @@
 package ru.sb066coder.diplonet.data.paging
 
+import android.util.Log
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import kotlinx.coroutines.flow.collectLatest
@@ -40,6 +41,7 @@ class PostPagingSource(
                 //postDao.clearTable()
                 postDao.insert(data.fromDto())
             }
+            Log.d("PostPagingSource", "data size: ${data.firstOrNull()?.id}")
             return LoadResult.Page(data, prevKey = params.key, nextKey = data.lastOrNull()?.id)
         } catch (e: IOException) {
             return LoadResult.Error(e)

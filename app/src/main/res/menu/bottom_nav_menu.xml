@@ -2,12 +2,14 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/navigation_post_roll"
+        android:id="@+id/navigation_post_feed"
+        android:name="ru.sb066coder.diplonet.presentation.view.PostFeedFragment"
         android:icon="@drawable/ic_video_attachment"
         android:title="@string/posts" />
 
     <item
-        android:id="@+id/navigation_event_roll"
+        android:id="@+id/navigation_event_feed"
+        android:name="ru.sb066coder.diplonet.presentation.view.EventFeedFragment"
         android:icon="@drawable/ic_video_attachment"
         android:title="@string/events" />
 

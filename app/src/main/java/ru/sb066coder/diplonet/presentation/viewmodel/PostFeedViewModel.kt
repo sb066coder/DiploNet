@@ -1,20 +1,17 @@
 package ru.sb066coder.diplonet.presentation.viewmodel
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 //import ru.sb066coder.diplonet.domain.useCase.GetPostListUseCase
 import ru.sb066coder.diplonet.domain.PostRepository
-import ru.sb066coder.diplonet.domain.dto.Post
 import ru.sb066coder.diplonet.domain.useCase.GetPostListUseCase
 import ru.sb066coder.diplonet.domain.useCase.LikePostByIdUseCase
 import javax.inject.Inject
 
 @HiltViewModel
-class PostRollViewModel @Inject constructor (
+class PostFeedViewModel @Inject constructor (
     repository: PostRepository,
     private val getPostListUseCase: GetPostListUseCase,
     private val likePostByIdUseCase: LikePostByIdUseCase

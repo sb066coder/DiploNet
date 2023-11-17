@@ -9,7 +9,7 @@ import javax.inject.Inject
 
 class EventRepositoryImpl @Inject constructor (
     private val apiService: ApiService,
-    //private val iventDao: IventDao
+    //private val eventDao: EventDao
 ) : EventRepository {
     override val data: Flow<PagingData<Event>>
         get() = TODO("Not yet implemented")
