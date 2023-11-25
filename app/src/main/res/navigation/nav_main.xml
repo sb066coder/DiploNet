@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_postFeedFragment_to_openPostFragment"
             app:destination="@id/openPostFragment" />
+        <action
+            android:id="@+id/action_navigation_post_feed_to_editPostFragment"
+            app:destination="@id/editPostFragment" />
     </fragment>
     <fragment
         android:id="@+id/welcomeFragment"
@@ -39,10 +42,23 @@
         <argument
             android:name="id"
             app:argType="integer" />
+        <action
+            android:id="@+id/action_openPostFragment_to_editPostFragment"
+            app:destination="@id/editPostFragment" />
     </fragment>
     <fragment
         android:id="@+id/navigation_event_feed"
         android:name="ru.sb066coder.diplonet.presentation.view.EventFeedFragment"
         android:label="EventFeedFragment"
         tools:layout="@layout/fragment_event_feed"/>
+    <fragment
+        android:id="@+id/editPostFragment"
+        android:name="ru.sb066coder.diplonet.presentation.view.EditPostFragment"
+        android:label="EditPostFragment"
+        tools:layout="@layout/fragment_edit_post">
+        <argument
+            android:name="id"
+            app:argType="integer"
+            android:defaultValue="0" />
+    </fragment>
 </navigation>

@@ -1,15 +1,14 @@
 package ru.sb066coder.diplonet.data.repository
 
 import androidx.lifecycle.MutableLiveData
-import androidx.paging.Pager
-import androidx.paging.PagingConfig
-import androidx.paging.PagingData
+import androidx.paging.*
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import retrofit2.Response
 import ru.sb066coder.diplonet.data.api.ApiService
 import ru.sb066coder.diplonet.data.database.PostDao
 import ru.sb066coder.diplonet.data.database.PostDbModel
-import ru.sb066coder.diplonet.data.paging.PostPagingSource
+import ru.sb066coder.diplonet.data.paging.PostRemoteMediator
 import ru.sb066coder.diplonet.domain.PostRepository
 import ru.sb066coder.diplonet.domain.dto.Post
 import javax.inject.Inject
@@ -24,10 +23,13 @@ class PostRepositoryImpl @Inject constructor (
     private val _postList = MutableLiveData<List<Post>>()
     override val data: Flow<PagingData<Post>> = getNewPager()
 
+    @OptIn(ExperimentalPagingApi::class)
     private fun getNewPager(): Flow<PagingData<Post>> = Pager(
         config = PagingConfig(pageSize = 10, enablePlaceholders = false),
-        pagingSourceFactory = { PostPagingSource(apiService, postDao) }
+        pagingSourceFactory = { postDao.getPagingSource() },
+        remoteMediator = PostRemoteMediator(apiService, postDao)
     ).flow
+        .map { it.map(PostDbModel::toDto) }
 
     override suspend fun getPostList() {
         try {

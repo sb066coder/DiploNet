@@ -1,5 +1,6 @@
 package ru.sb066coder.diplonet.data.database
 
+import androidx.paging.PagingSource
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
@@ -14,6 +15,9 @@ interface PostDao {
 
     @Query("SELECT * FROM PostDbModel WHERE id = :id")
     suspend fun getPostById(id: Int): PostDbModel?
+
+    @Query("SELECT * FROM PostDbModel ORDER BY id DESC")
+    fun getPagingSource(): PagingSource<Int, PostDbModel>
 
     @Insert(onConflict =  OnConflictStrategy.REPLACE)
     suspend fun insert(posts: List<PostDbModel>)
